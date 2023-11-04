@@ -247,6 +247,13 @@
           mesh1.position.z = parameters.z;
           // plane.scale.set(parameters.scale)
         }
+        renderer.setAnimationLoop(() => {
+          deltaTime = clock.getDelta();
+          totalTime += deltaTime;
+          texture.needsUpdate = true;
+          update();
+          render();
+        });
       }
 
       function update() {
@@ -260,7 +267,7 @@
       }
 
       function animate() {
-        requestAnimationFrame(animate);
+        // requestAnimationFrame(animate);
         deltaTime = clock.getDelta();
         totalTime += deltaTime;
         texture.needsUpdate = true;
