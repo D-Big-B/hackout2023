@@ -45,8 +45,16 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body>
-    <input type="hidden" name="sdf" id="myVRBtn" value="<%=VRButton%>" />
+  <body
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    "
+  >
     <div style="background: red" id="video-grid"></div>
 
     <canvas id="canvas" class="drawing-canvas" style="display: none"></canvas>
@@ -69,9 +77,7 @@
       const canvas = document.querySelector(".drawing-canvas");
       const ctx = canvas.getContext("2d");
       initialize();
-      animate();
-      renderer.xr.enabled = true;
-      document.body.appendChild(VRButton.createButton(renderer));
+      // animate();
       function initialize() {
         scene = new THREE.Scene();
 
@@ -90,7 +96,6 @@
         renderer.domElement.style.position = "absolute";
         renderer.domElement.style.top = "0px";
         renderer.domElement.style.left = "0px";
-        document.body.appendChild(VRButton.createButton(renderer));
 
         document.body.appendChild(renderer.domElement);
 

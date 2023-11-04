@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .container {
+        display: flex;
+        width: 100%;
+      }
+      .video {
+        flex: 1;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <video class="video" id="video1" autoplay playsinline></video>
+      <video class="video" id="video2" autoplay playsinline></video>
+    </div>
+
+    <script>
+      async function startCapture(displayMediaOptions) {
+        try {
+          const stream = await navigator.mediaDevices.getDisplayMedia(
+            displayMediaOptions
+          );
+          const video1 = document.getElementById("video1");
+          const video2 = document.getElementById("video2");
+          video1.srcObject = stream;
+          video2.srcObject = stream;
+        } catch (err) {
+          console.error("Error accessing screen:", err);
+        }
+      }
+
+      startCapture({ video: true, audio: false });
+    </script>
+  </body>
+</html>
