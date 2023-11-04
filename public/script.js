@@ -108,6 +108,43 @@ function addVideoStream(video, stream) {
     video.play();
   });
   videoGrid.append(video);
+  video.addEventListener("play", function () {
+    const width = video.videoWidth;
+    const height = video.videoHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    function processVideo() {
+      if (!video.paused && !video.ended) {
+        ctx.drawImage(video, 0, 0, width, height);
+
+        // Capture the current frame
+        const frameData = ctx.getImageData(0, 0, width, height);
+        const frame = frameData.data;
+
+        // Perform your custom background subtraction logic here
+        // For simplicity, let's assume we're removing pixels with a certain color (e.g., green background)
+
+        for (let i = 0; i < frame.length; i += 4) {
+          const r = frame[i];
+          const g = frame[i + 1];
+          const b = frame[i + 2];
+
+          if (g > r && g > b) {
+            // This pixel is considered part of the background (e.g., it's green)
+            frame[i] = frame[i + 1] = frame[i + 2] = frame[i + 3] = 0; // Set it to transparent
+          }
+        }
+
+        // Put the modified frame back on the canvas
+        ctx.putImageData(frameData, 0, 0);
+
+        // Request the next animation frame
+        requestAnimationFrame(processVideo);
+      }
+    }
+    processVideo();
+  });
 }
 
 const scrollToBottom = () => {
